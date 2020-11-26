@@ -190,6 +190,7 @@
     <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -208,6 +209,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFirewallHelper, Version=2.0.4.70, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsFirewallHelper.2.0.4.70-beta2\lib\net40\WindowsFirewallHelper.dll</HintPath>
+    </Reference>
     <Reference Include="WPFLocalizeExtension, Version=3.5.0.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFLocalizeExtension.3.5.0\lib\net452\WPFLocalizeExtension.dll</HintPath>
     </Reference>
@@ -1500,6 +1504,7 @@
     </Compile>
     <Compile Include="Utility\Updating\Updater.Squirrel.cs" />
     <Compile Include="Utility\Updating\Updater.Default.cs" />
+    <Resource Include="Resources\tier-0.png" />
     <Resource Include="Resources\faceless_manipulator.png" />
     <Resource Include="Resources\deathrattle.png" />
     <Resource Include="Resources\taunt.png" />
