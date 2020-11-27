@@ -5,9 +5,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using WindowsFirewallHelper;
+using WindowsFirewallHelper.FirewallRules;
 
 namespace Hearthstone_Deck_Tracker.Controls.Overlay
 {
@@ -457,7 +461,7 @@ namespace Hearthstone_Deck_Tracker.Controls.Overlay
 		}
 
 		private bool InCombatPhase => State == BobsBuddyState.Combat;
-		private bool InShoppingPhase => State == BobsBuddyState.Shopping; 
+		private bool InShoppingPhase => State == BobsBuddyState.Shopping;
 		private bool CanMinimize
 			=> InCombatPhase && !Config.Instance.ShowBobsBuddyDuringCombat
 			|| InShoppingPhase && !Config.Instance.ShowBobsBuddyDuringShopping;
@@ -476,7 +480,7 @@ namespace Hearthstone_Deck_Tracker.Controls.Overlay
 				(FindResource("StoryboardExpandAverageDamageInstant") as Storyboard)?.Begin();
 			else
 				(FindResource("StoryboardCollapseAverageDamageInstant") as Storyboard)?.Begin();
-		} 
+		}
 
 		private void BottomBar_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
@@ -578,6 +582,57 @@ namespace Hearthstone_Deck_Tracker.Controls.Overlay
 		{
 			if(Config.Instance.BobsBuddyAverageDamageInfoClosed)
 				AverageDamageInfoVisibility = Visibility.Collapsed;
+		}
+
+		private string _doingText = "拔线中，请等待（作者：B站炉石团子）";
+		private string _doneText = "一键拔线（作者：B站炉石团子）";
+
+		private void Reconnect_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			if(BtnReconnect.Text == _doingText)
+			{
+				return;
+			}
+
+			BtnReconnect.Text = _doingText;
+
+			var ruleName = "【炉石团子】整活必备工具";
+			var rule = FirewallWAS.Instance.Rules.FirstOrDefault(x => x.Name == ruleName);
+
+			if(rule == null)
+			{
+				var fileName = Config.Instance.HearthstoneDirectory + @"\Hearthstone.exe";
+
+				rule = FirewallWAS.Instance.CreateApplicationRule(
+				   FirewallProfiles.Domain | FirewallProfiles.Private | FirewallProfiles.Public,
+				   ruleName,
+				   FirewallAction.Block,
+				   FirewallDirection.Outbound,
+				   fileName,
+				   FirewallProtocol.Any
+				   );
+
+				FirewallWAS.Instance.Rules.Add(rule);
+			}
+
+			rule.IsEnable = true;
+
+			Task.Factory.StartNew(DisableRule, rule);
+		}
+
+		private void UpdateText(TextBlock tb, string text)
+		{
+			tb.Text = text;
+		}
+
+		private void DisableRule(object obj)
+		{
+			Thread.Sleep(TimeSpan.FromSeconds(3));
+
+			var rule = obj as FirewallWASRule;
+			rule.IsEnable = false;
+			var updateAction = new Action<TextBlock, string>(UpdateText);
+			BtnReconnect.Dispatcher.BeginInvoke(updateAction, BtnReconnect, _doneText);
 		}
 	}
 }

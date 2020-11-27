@@ -9,7 +9,6 @@
     <StackPanel Name="BattlegroundsTierlistPanel" Canvas.Right="0" Canvas.Top="0">
         <Border BorderBrush="#141617" BorderThickness="1" Background="#23272a">
             <StackPanel Name="BgTierIcons" Orientation="Horizontal">
-                <local:BattlegroundsTier x:Name="BgTier0" Tier="0" MouseUp="BgTier0_MouseUp"/>
                 <local:BattlegroundsTier x:Name="BgTier1" Tier="1" MouseUp="BgTier_MouseUp"/>
                 <local:BattlegroundsTier x:Name="BgTier2" Tier="2" MouseUp="BgTier_MouseUp"/>
                 <local:BattlegroundsTier x:Name="BgTier3" Tier="3" MouseUp="BgTier_MouseUp"/>

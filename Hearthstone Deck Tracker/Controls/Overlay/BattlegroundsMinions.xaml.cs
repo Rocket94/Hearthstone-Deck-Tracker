@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using WindowsFirewallHelper;
 
 namespace Hearthstone_Deck_Tracker.Controls.Overlay
 {
@@ -22,7 +20,6 @@ namespace Hearthstone_Deck_Tracker.Controls.Overlay
 		{
 			InitializeComponent();
 			_tierIcons = BgTierIcons.Children.Cast<BattlegroundsTier>().ToList();
-			_tierIcons.RemoveAt(0);
 		}
 
 		private void BgTier_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -115,36 +112,6 @@ namespace Hearthstone_Deck_Tracker.Controls.Overlay
 					Groups.Add(item);
 				}
 			}
-		}
-
-		private void BgTier0_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
-		{
-			var ruleName = "【炉石团子】整活必备工具";
-			var rule = FirewallWAS.Instance.Rules.FirstOrDefault(x => x.Name == ruleName);
-
-			if(rule == null)
-			{
-				var fileName = Config.Instance.HearthstoneDirectory + @"\Hearthstone.exe";
-
-				rule = FirewallWAS.Instance.CreateApplicationRule(
-				   FirewallProfiles.Domain | FirewallProfiles.Private | FirewallProfiles.Public,
-				   ruleName,
-				   FirewallAction.Block,
-				   FirewallDirection.Outbound,
-				   fileName,
-				   FirewallProtocol.Any
-				   );
-
-				FirewallWAS.Instance.Rules.Add(rule);
-			}
-
-			rule.IsEnable = true;
-
-			Task.Run(async delegate
-			{
-				await Task.Delay(TimeSpan.FromSeconds(5));
-				rule.IsEnable = false;
-			});
 		}
 	}
 }
