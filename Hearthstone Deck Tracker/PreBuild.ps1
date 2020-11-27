@@ -8,8 +8,10 @@ param(
 	[Parameter(Mandatory=$true)]
 	[string]$target,
 
-	[switch]$skipGitSync = $false,
-	[switch]$skipResourceCopy = $false
+	# [switch]$skipGitSync = $false,
+	# [switch]$skipResourceCopy = $false
+	[switch]$skipGitSync = $true,
+	[switch]$skipResourceCopy = $true
 )
 
 "Solution: $solution"
