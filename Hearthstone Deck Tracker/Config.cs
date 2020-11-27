@@ -513,8 +513,8 @@ namespace Hearthstone_Deck_Tracker
 		[DefaultValue("")]
 		public string LastDeck = "";
 
-		[DefaultValue(Language.enUS)]
-		public Language Localization = Language.enUS;
+		[DefaultValue(Language.zhCN)]
+		public Language Localization = Language.zhCN;
 
 		[DefaultValue(false)]
 		public bool LogConfigConsolePrinting = false;
@@ -726,8 +726,8 @@ namespace Hearthstone_Deck_Tracker
 		[DefaultValue(DeckType.All)]
 		public DeckType SelectedDeckPickerDeckType = DeckType.All;
 
-		[DefaultValue("enUS")]
-		public string SelectedLanguage = "enUS";
+		[DefaultValue("zhCN")]
+		public string SelectedLanguage = "zhCN";
 
 		[XmlArray(ElementName = "AlternativeLanguages")]
 		[XmlArrayItem(ElementName = "Language")]
