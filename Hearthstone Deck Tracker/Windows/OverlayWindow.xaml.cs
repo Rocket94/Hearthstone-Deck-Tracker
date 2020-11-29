@@ -294,7 +294,7 @@ namespace Hearthstone_Deck_Tracker.Windows
 		{
 			BattlegroundsMinionsPanel.Reset();
 			_bgsTopBarBehavior.Hide();
-			TurnCounter.UpdateTurn(1);
+			TurnCounter.UpdateTurn(1, false);
 			HideBobsBuddyPanel();
 		}
 

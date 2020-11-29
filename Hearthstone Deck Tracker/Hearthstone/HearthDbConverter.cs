@@ -91,6 +91,29 @@ namespace Hearthstone_Deck_Tracker.Hearthstone
 			}
 		}
 
+		public static string RaceChineseConverter(Race race)
+		{
+			switch(race)
+			{
+				case Race.DEMON:
+					return "恶魔";
+				case Race.MECHANICAL:
+					return "机械";
+				case Race.BEAST:
+					return "野兽";
+				case Race.DRAGON:
+					return "龙";
+				case Race.MURLOC:
+					return "鱼人";
+				case Race.PIRATE:
+					return "海盗";
+				case Race.ELEMENTAL:
+					return "元素";
+				default:
+					return RaceConverter(race);
+			}
+		}
+
 		public static string SetConverter(CardSet set) => SetDict.TryGetValue((int)set, out var str) ? str : string.Empty;
 
 		public static GameMode GetGameMode(GameType gameType)
