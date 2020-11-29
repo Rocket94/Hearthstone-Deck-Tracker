@@ -22,6 +22,7 @@ namespace Hearthstone_Deck_Tracker.Utility.Updating
 
 		public static async void CheckForUpdates(bool force = false)
 		{
+			return;//关闭自动更新
 			if(!force && !ShouldCheckForUpdates())
 				return;
 			_lastUpdateCheck = DateTime.Now;
