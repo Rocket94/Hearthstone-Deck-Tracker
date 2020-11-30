@@ -29,7 +29,7 @@ namespace Hearthstone_Deck_Tracker.Controls.Overlay
 
 			if(showBan && !string.IsNullOrEmpty(_unavailableRaces))
 			{
-				text = text + " 本局禁用" + _unavailableRaces;
+				text = text + " 禁" + _unavailableRaces;
 			}
 
 			TurnText.Text = text;

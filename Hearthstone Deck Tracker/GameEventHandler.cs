@@ -844,10 +844,13 @@ namespace Hearthstone_Deck_Tracker
 					if(Config.Instance.HideOverlay)
 					{
 						ToastManager.ShowBattlegroundsToast(heroIds);
-						Core.Overlay.ShowBgsTopBar();
 					}
 					else
+					{
 						Core.Overlay.ShowBattlegroundsHeroPanel(heroIds);
+					}
+					Core.Overlay.ShowBgsTopBar();
+					Core.Overlay.TurnCounter.UpdateTurn(1);
 					break;
 				}
 			}
