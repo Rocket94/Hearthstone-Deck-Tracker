@@ -1179,6 +1179,12 @@ namespace Hearthstone_Deck_Tracker
 				_config = BackupManager.TryRestore<Config>("config.xml");
 			}
 
+			if(_config != null)
+			{
+				_config.Localization = Language.zhCN;
+				_config.SelectedLanguage = "zhCN";
+			}
+
 			if(!foundConfig)
 			{
 				if(Instance.ConfigDir != string.Empty)
