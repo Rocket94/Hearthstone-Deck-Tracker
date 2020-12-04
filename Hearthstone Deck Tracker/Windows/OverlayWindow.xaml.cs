@@ -72,7 +72,8 @@ namespace Hearthstone_Deck_Tracker.Windows
 				GetBottom = () => Height * 0.04,
 				GetScaling = () => AutoScaling,
 				AnchorSide = Side.Bottom,
-				HideCallback = () => {
+				HideCallback = () =>
+				{
 					ShowBgsTopBar();
 				},
 				EntranceAnimation = AnimationType.Slide,
@@ -281,10 +282,14 @@ namespace Hearthstone_Deck_Tracker.Windows
 			_heroNotificationBehavior.Hide();
 		}
 
-		internal void ShowBgsTopBar()
+		internal void ShowBgsTopBar(bool showBan = false)
 		{
 			TurnCounter.Visibility = Config.Instance.ShowBattlegroundsTurnCounter ? Visible : Collapsed;
 			BattlegroundsMinionsPanel.Visibility = Config.Instance.ShowBattlegroundsTiers ? Visible : Collapsed;
+			if(showBan)
+			{
+				BattlegroundsMinionsPanel.ShowBan();
+			}
 
 			_bgsTopBarBehavior.Show();
 			ShowBobsBuddyPanel();
@@ -294,7 +299,7 @@ namespace Hearthstone_Deck_Tracker.Windows
 		{
 			BattlegroundsMinionsPanel.Reset();
 			_bgsTopBarBehavior.Hide();
-			TurnCounter.UpdateTurn(1, false);
+			TurnCounter.UpdateTurn(1);
 			HideBobsBuddyPanel();
 		}
 

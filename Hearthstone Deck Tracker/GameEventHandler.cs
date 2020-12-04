@@ -849,8 +849,7 @@ namespace Hearthstone_Deck_Tracker
 					{
 						Core.Overlay.ShowBattlegroundsHeroPanel(heroIds);
 					}
-					Core.Overlay.ShowBgsTopBar();
-					Core.Overlay.TurnCounter.UpdateTurn(1);
+					Core.Overlay.ShowBgsTopBar(true);
 					break;
 				}
 			}

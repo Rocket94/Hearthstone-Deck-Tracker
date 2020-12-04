@@ -4,9 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Hearthstone_Deck_Tracker.Controls.Overlay"
+             xmlns:local2="clr-namespace:Hearthstone_Deck_Tracker"
              xmlns:controls="clr-namespace:Hearthstone_Deck_Tracker.Controls"
              mc:Ignorable="d">
     <StackPanel Name="BattlegroundsTierlistPanel" Canvas.Right="0" Canvas.Top="0">
+        <Border BorderBrush="#141617" BorderThickness="1" Background="#23272a" >
+            <local2:HearthstoneTextBlock x:Name="BanText" Text="" Margin="10,3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
         <Border BorderBrush="#141617" BorderThickness="1" Background="#23272a">
             <StackPanel Name="BgTierIcons" Orientation="Horizontal">
                 <local:BattlegroundsTier x:Name="BgTier1" Tier="1" MouseUp="BgTier_MouseUp"/>

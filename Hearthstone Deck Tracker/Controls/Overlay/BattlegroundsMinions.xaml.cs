@@ -22,6 +22,13 @@ namespace Hearthstone_Deck_Tracker.Controls.Overlay
 			_tierIcons = BgTierIcons.Children.Cast<BattlegroundsTier>().ToList();
 		}
 
+		public void ShowBan()
+		{
+			var availableRaces = BattlegroundsUtils.GetAvailableRaces(Core.Game.CurrentGameStats?.GameId) ?? _db.Value.Races;
+			var _unavailableRaces = string.Join("，", _db.Value.Races.Where(x => !availableRaces.Contains(x) && x != Race.INVALID && x != Race.ALL).Select(x => HearthDbConverter.RaceChineseConverter(x)));
+			BanText.Text = "禁用" + _unavailableRaces;
+		}
+
 		private void BgTier_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			var tier = ((BattlegroundsTier)sender).Tier;
