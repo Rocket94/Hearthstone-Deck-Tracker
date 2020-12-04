@@ -586,6 +586,7 @@ namespace Hearthstone_Deck_Tracker.Controls.Overlay
 
 		private string _doingText = "拔线中（作者：B站炉石团子）";
 		private string _doneText = "一键拔线（作者：B站炉石团子）";
+		private string _ruleName = "【炉石团子】整活必备工具";
 
 		private void Reconnect_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
@@ -596,28 +597,27 @@ namespace Hearthstone_Deck_Tracker.Controls.Overlay
 
 			BtnReconnect.Text = _doingText;
 
-			var ruleName = "【炉石团子】整活必备工具";
-			var rule = FirewallWAS.Instance.Rules.FirstOrDefault(x => x.Name == ruleName);
-
-			if(rule == null)
+			//针对用户炉石客户端安装路径改变的情况，改为每次都新创建规则
+			var rule = FirewallWAS.Instance.Rules.FirstOrDefault(x => x.Name == _ruleName);
+			if(rule != null)
 			{
-				var fileName = Config.Instance.HearthstoneDirectory + @"\Hearthstone.exe";
-
-				rule = FirewallWAS.Instance.CreateApplicationRule(
-				   FirewallProfiles.Domain | FirewallProfiles.Private | FirewallProfiles.Public,
-				   ruleName,
-				   FirewallAction.Block,
-				   FirewallDirection.Outbound,
-				   fileName,
-				   FirewallProtocol.Any
-				   );
-
-				FirewallWAS.Instance.Rules.Add(rule);
+				FirewallWAS.Instance.Rules.Remove(rule);
 			}
 
-			rule.IsEnable = true;
+			var fileName = Config.Instance.HearthstoneDirectory + @"\Hearthstone.exe";
 
-			Task.Factory.StartNew(DisableRule, rule);
+			rule = FirewallWAS.Instance.CreateApplicationRule(
+			   FirewallProfiles.Domain | FirewallProfiles.Private | FirewallProfiles.Public,
+			   _ruleName,
+			   FirewallAction.Block,
+			   FirewallDirection.Outbound,
+			   fileName,
+			   FirewallProtocol.Any
+			   );
+
+			FirewallWAS.Instance.Rules.Add(rule);
+
+			Task.Factory.StartNew(DeleteRule, rule);
 		}
 
 		private void UpdateText(TextBlock tb, string text)
@@ -625,12 +625,12 @@ namespace Hearthstone_Deck_Tracker.Controls.Overlay
 			tb.Text = text;
 		}
 
-		private void DisableRule(object obj)
+		private void DeleteRule(object obj)
 		{
 			Thread.Sleep(TimeSpan.FromSeconds(3));
 
 			var rule = obj as FirewallWASRule;
-			rule.IsEnable = false;
+			FirewallWAS.Instance.Rules.Remove(rule);
 			var updateAction = new Action<TextBlock, string>(UpdateText);
 			BtnReconnect.Dispatcher.BeginInvoke(updateAction, BtnReconnect, _doneText);
 		}
