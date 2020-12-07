@@ -9,13 +9,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300">
     <Button Style="{StaticResource AccentedSquareButtonStyle}"
-            BorderThickness="1" IsEnabled="False"
+            BorderThickness="1" IsEnabled="{Binding Enabled}"
             Command="{Binding StartHearthstone}">
         <StackPanel Orientation="Horizontal" Margin="5">
             <Image Source="{StaticResource HearthstoneIcon}" Width="34" Height="34"
                    RenderOptions.BitmapScalingMode="Fant"/>
             <TextBlock VerticalAlignment="Center" Margin="5,0,0,0"
-                       FontSize="14" Text="直接启动炉石客户端即可" />
+                       FontSize="14" Text="{lex:LocTextUpper StartHearthstoneButton_Text}" />
         </StackPanel>
     </Button>
 </UserControl>
