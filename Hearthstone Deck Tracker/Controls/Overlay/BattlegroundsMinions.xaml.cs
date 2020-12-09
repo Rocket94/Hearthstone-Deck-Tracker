@@ -24,7 +24,7 @@ namespace Hearthstone_Deck_Tracker.Controls.Overlay
 
 		public void ShowBan()
 		{
-			var availableRaces = BattlegroundsUtils.GetAvailableRaces(Core.Game.CurrentGameStats?.GameId) ?? _db.Value.Races;
+			var availableRaces = Core.Game.CurrentGameStats?.BattlegroundsRaces ?? _db.Value.Races;
 			var _unavailableRaces = string.Join("，", _db.Value.Races.Where(x => !availableRaces.Contains(x) && x != Race.INVALID && x != Race.ALL).Select(x => HearthDbConverter.RaceChineseConverter(x)));
 			BanText.Text = "禁用" + _unavailableRaces;
 		}

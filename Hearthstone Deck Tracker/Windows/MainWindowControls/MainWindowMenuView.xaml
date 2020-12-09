@@ -226,5 +226,8 @@
                 </CompositeCollection>
             </MenuItem.ItemsSource>
         </MenuItem>
+        <MenuItem Header="团子专属">
+            <MenuItem Header="{Binding Modify144Text}" Command="{Binding Modify144}" IsEnabled="{Binding Modify144Enabled}" />
+        </MenuItem>
     </Menu>
 </UserControl>

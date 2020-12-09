@@ -849,12 +849,11 @@ namespace Hearthstone_Deck_Tracker
 					{
 						Core.Overlay.ShowBattlegroundsHeroPanel(heroIds);
 					}
-					Core.Overlay.ShowBgsTopBar(true);
 					break;
 				}
 			}
-			else
-				Core.Overlay.ShowBgsTopBar();
+
+			Core.Overlay.ShowBgsTopBar(true);
 		}
 
 		#region Player

@@ -14,6 +14,8 @@ using Hearthstone_Deck_Tracker.Stats;
 using static System.Windows.Visibility;
 using System.Windows.Controls;
 using Hearthstone_Deck_Tracker.Utility.MVVM;
+using System;
+using System.IO;
 
 namespace Hearthstone_Deck_Tracker.Windows.MainWindowControls
 {
@@ -31,7 +33,7 @@ namespace Hearthstone_Deck_Tracker.Windows.MainWindowControls
 			get => _decks ?? new List<Deck>();
 			set
 			{
-				_decks = value; 
+				_decks = value;
 				OnPropertyChanged();
 				OnPropertyChanged(nameof(HasSelectedDeck));
 			}
@@ -129,7 +131,7 @@ namespace Hearthstone_Deck_Tracker.Windows.MainWindowControls
 			get => _loginButtonEnabled;
 			set
 			{
-				_loginButtonEnabled = value; 
+				_loginButtonEnabled = value;
 				OnPropertyChanged();
 			}
 		}
@@ -154,6 +156,19 @@ namespace Hearthstone_Deck_Tracker.Windows.MainWindowControls
 			HSReplayNetOAuth.AccountDataUpdated += UpdateHSReplayNetMenu;
 			HSReplayNetOAuth.LoggedOut += UpdateHSReplayNetMenu;
 			HSReplayNetHelper.Authenticating += EnableLoginButton;
+
+			//检查当前配置
+			if(File.Exists(Config.HearthstoneOptionPath))
+			{
+				Modify144Enabled = true;
+				var lines = File.ReadAllLines(Config.HearthstoneOptionPath);
+				Modify144Text = lines.Any(x => x.Equals("targetframerate=144", StringComparison.OrdinalIgnoreCase)) ? _disableText : _enableText;
+			}
+			else
+			{
+				Modify144Enabled = false;
+				Modify144Text = "启用144帧（未找到配置）";
+			}
 		}
 
 		private void EnableLoginButton(bool authenticating)
@@ -197,5 +212,55 @@ namespace Hearthstone_Deck_Tracker.Windows.MainWindowControls
 			OnPropertyChanged(nameof(PluginsMenuItems));
 			OnPropertyChanged(nameof(PluginsEmptyVisibility));
 		}
+
+		private readonly string _enableText = "启用144帧";
+		private readonly string _disableText = "关闭144帧";
+
+		private string _modify144Text;
+		public string Modify144Text
+		{
+			get => _modify144Text;
+			set
+			{
+				_modify144Text = value;
+				OnPropertyChanged();
+			}
+		}
+
+		private bool _modify144Enabled = true;
+		public bool Modify144Enabled
+		{
+			get => _modify144Enabled;
+			set
+			{
+				_modify144Enabled = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public ICommand Modify144 => new Command(() =>
+			{
+				if(User32.GetHearthstoneWindow() == IntPtr.Zero)
+				{
+					if(File.Exists(Config.HearthstoneOptionPath))
+					{
+						var lines = File.ReadAllLines(Config.HearthstoneOptionPath).ToList();
+						lines.RemoveAll(x => x.StartsWith("targetframerate=", StringComparison.OrdinalIgnoreCase) || x.StartsWith("vsync=", StringComparison.OrdinalIgnoreCase));
+						if(Modify144Text == _enableText)
+						{
+							lines.Add("targetframerate=144");
+							lines.Add("vsync=0");
+						}
+						File.WriteAllLines(Config.HearthstoneOptionPath, lines);
+
+						Core.MainWindow.ShowMessage("成功", string.Format("{0}成功！", Modify144Text)).Forget();
+						Modify144Text = Modify144Text == _enableText ? _disableText : _enableText;
+					}
+				}
+				else
+				{
+					Core.MainWindow.ShowMessage("错误", string.Format("需要关闭炉石客户端才能{0}！", Modify144Text)).Forget();
+				}
+			});
 	}
 }

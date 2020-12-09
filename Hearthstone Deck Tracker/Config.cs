@@ -22,6 +22,7 @@ namespace Hearthstone_Deck_Tracker
 		public static readonly string AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
 		                                            + @"\HearthstoneDeckTracker";
 
+		public static readonly string HearthstoneOptionPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Blizzard\Hearthstone\options.txt";
 
 #if(!SQUIRREL)
 		[DefaultValue(".")]

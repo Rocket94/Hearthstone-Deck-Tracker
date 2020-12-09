@@ -584,9 +584,9 @@ namespace Hearthstone_Deck_Tracker.Controls.Overlay
 				AverageDamageInfoVisibility = Visibility.Collapsed;
 		}
 
-		private string _doingText = "拔线中（作者：B站炉石团子）";
-		private string _doneText = "一键拔线（作者：B站炉石团子）";
-		private string _ruleName = "【炉石团子】整活必备工具";
+		private readonly string _doingText = "拔线中（作者：B站炉石团子）";
+		private readonly string _doneText = "一键拔线（作者：B站炉石团子）";
+		private readonly string _ruleName = "【炉石团子】整活必备工具";
 
 		private void Reconnect_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
