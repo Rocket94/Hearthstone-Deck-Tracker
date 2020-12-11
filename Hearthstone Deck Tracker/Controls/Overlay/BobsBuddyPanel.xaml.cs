@@ -587,37 +587,45 @@ namespace Hearthstone_Deck_Tracker.Controls.Overlay
 		private readonly string _doingText = "拔线中（作者：B站炉石团子）";
 		private readonly string _doneText = "一键拔线（作者：B站炉石团子）";
 		private readonly string _ruleName = "【炉石团子】整活必备工具";
+		private readonly string _errorText = "出错了？为什么不看群公告啊？";
 
 		private void Reconnect_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
-			if(BtnReconnect.Text == _doingText)
+			if(BtnReconnect.Text == _doingText || BtnReconnect.Text == _errorText)
 			{
 				return;
 			}
 
-			BtnReconnect.Text = _doingText;
-
-			//针对用户炉石客户端安装路径改变的情况，改为每次都新创建规则
-			var rule = FirewallWAS.Instance.Rules.FirstOrDefault(x => x.Name == _ruleName);
-			if(rule != null)
+			try
 			{
-				FirewallWAS.Instance.Rules.Remove(rule);
+				BtnReconnect.Text = _doingText;
+
+				//针对用户炉石客户端安装路径改变的情况，改为每次都新创建规则
+				var rule = FirewallWAS.Instance.Rules.FirstOrDefault(x => x.Name == _ruleName);
+				if(rule != null)
+				{
+					FirewallWAS.Instance.Rules.Remove(rule);
+				}
+
+				var fileName = Config.Instance.HearthstoneDirectory + @"\Hearthstone.exe";
+
+				rule = FirewallWAS.Instance.CreateApplicationRule(
+				   FirewallProfiles.Domain | FirewallProfiles.Private | FirewallProfiles.Public,
+				   _ruleName,
+				   FirewallAction.Block,
+				   FirewallDirection.Outbound,
+				   fileName,
+				   FirewallProtocol.Any
+				   );
+
+				FirewallWAS.Instance.Rules.Add(rule);
+
+				Task.Factory.StartNew(DeleteRule, rule);
 			}
-
-			var fileName = Config.Instance.HearthstoneDirectory + @"\Hearthstone.exe";
-
-			rule = FirewallWAS.Instance.CreateApplicationRule(
-			   FirewallProfiles.Domain | FirewallProfiles.Private | FirewallProfiles.Public,
-			   _ruleName,
-			   FirewallAction.Block,
-			   FirewallDirection.Outbound,
-			   fileName,
-			   FirewallProtocol.Any
-			   );
-
-			FirewallWAS.Instance.Rules.Add(rule);
-
-			Task.Factory.StartNew(DeleteRule, rule);
+			catch(Exception)
+			{
+				BtnReconnect.Text = _errorText;
+			}
 		}
 
 		private void UpdateText(TextBlock tb, string text)

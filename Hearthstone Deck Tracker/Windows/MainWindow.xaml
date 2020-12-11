@@ -18,7 +18,7 @@
                       lex:LocalizeDictionary.DesignCulture="en"
                       lex:ResxLocalizationProvider.DefaultAssembly="HearthstoneDeckTracker"
                       lex:ResxLocalizationProvider.DefaultDictionary="Strings"
-                      Title="Hearthstone Deck Tracker-B站炉石团子版V0.1.7" Height="603" Width="1100"
+                      Title="Hearthstone Deck Tracker-B站炉石团子版V0.1.8" Height="603" Width="1100"
                       MinHeight="584" MinWidth="1100"
                       Closing="Window_Closing"
                       Icon="{StaticResource AppIcon}"
