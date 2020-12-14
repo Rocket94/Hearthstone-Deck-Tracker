@@ -102,18 +102,18 @@ namespace Hearthstone_Deck_Tracker
 			if(Config.Instance.DisplayHsReplayNoteLive && ConfigManager.PreviousVersion != null && ConfigManager.PreviousVersion < new Version(1, 1, 0))
 				MainWindow.FlyoutHsReplayNote.IsOpen = true;
 
-			if(ConfigManager.UpdatedVersion != null)
-			{
-#if(!SQUIRREL)
-				Updater.Cleanup();
-#endif
-				MainWindow.FlyoutUpdateNotes.IsOpen = true;
-				MainWindow.UpdateNotesControl.SetHighlight(ConfigManager.PreviousVersion);
-#if(SQUIRREL && !DEV)
-				if(Config.Instance.CheckForDevUpdates && !Config.Instance.AllowDevUpdates.HasValue)
-					MainWindow.ShowDevUpdatesMessage();
-#endif
-			}
+//			if(ConfigManager.UpdatedVersion != null)
+//			{
+//#if(!SQUIRREL)
+//				Updater.Cleanup();
+//#endif
+//				MainWindow.FlyoutUpdateNotes.IsOpen = true;
+//				MainWindow.UpdateNotesControl.SetHighlight(ConfigManager.PreviousVersion);
+//#if(SQUIRREL && !DEV)
+//				if(Config.Instance.CheckForDevUpdates && !Config.Instance.AllowDevUpdates.HasValue)
+//					MainWindow.ShowDevUpdatesMessage();
+//#endif
+//			}
 			DataIssueResolver.Run();
 
 #if(!SQUIRREL)
